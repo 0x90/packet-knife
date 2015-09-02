@@ -75,8 +75,8 @@ def callback(pkt, hostdict=None):
         if hostdict is not None:
             if hostname not in hostdict:
                 hostdict[hostname] = {
-                    "credentials" : {},
-                    "cookies"     : {}
+                    "credentials": {},
+                    "cookies": {}
                 }
             for u in (username if username else [None]):
                 if u not in hostdict[hostname]["credentials"]:
@@ -106,5 +106,3 @@ def callback(pkt, hostdict=None):
                 print "  Interesting:\n    ", "\n    ".join([':'.join(c) for c in cookies["interesting"]])
     except:
         print traceback.format_exc()
-        
-        

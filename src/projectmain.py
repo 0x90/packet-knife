@@ -1,4 +1,4 @@
-#!/usr/bin/python2.6
+#!/usr/bin/env python2
 import time
 import inspect
 import pprint
@@ -12,8 +12,10 @@ import pickle
 PROG_NAME = "PacketKnife"
 VERSION_NUM = "0.1beta"
 
+
 class Harness:
     hostdict = {}
+
     def __init__(self):
         self.cmds = {
             "sniff" : self.runfg,
@@ -72,7 +74,7 @@ class Harness:
         print "Hit Ctrl+C to stop listening and return shell."
         print "-----------------------------------------------"
         try:
-            sniff(lfilter=lambda x: HTTP in x, prn=lambda x: sniff_data.callback(x, self.hostdict), store=0)
+            sniff(lfilter=lambda x: x.haslayer(IP) and HTTP in x, prn=lambda x: sniff_data.callback(x, self.hostdict), store=0)
         except KeyboardInterrupt:
             print
             print
