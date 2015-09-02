@@ -70,7 +70,8 @@ def callback(pkt, hostdict=None):
     except AttributeError:
         try:
             hostname = socket.gethostbyaddr(pkt[IP].dst if not pkt[IP].dst.startswith('192.168.') else pkt[IP].src)[0]
-        except socket.herror:
+        except:
+        # except socket.herror:
             try:
                 hostname = pkt[IP].dst if not pkt[IP].dst.startswith('192.168.') else pkt[IP].src
             except:
