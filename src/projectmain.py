@@ -1,8 +1,8 @@
 #!/usr/bin/env python2
-import time
+
 import inspect
-import pprint
 from scapy.all import *
+from scapy.layers.inet import IP
 from HTTP import *
 import sniff_data
 import sniff_thread
@@ -18,16 +18,16 @@ class Harness:
 
     def __init__(self):
         self.cmds = {
-            "sniff" : self.runfg,
-            "sniffbg" : self.runbg,
-            "stopbg" : self.stopbg,
-            "show" : self.showdata,
-            "help" : self.printhelp,
+            "sniff": self.runfg,
+            "sniffbg": self.runbg,
+            "stopbg": self.stopbg,
+            "show": self.showdata,
+            "help": self.printhelp,
             "loadpcap" : self.loadpcap,
-            "save" : self.pickle,
-            "load" : self.unpickle,
-            "about" : self.about,
-            "hosts" : self.showhosts
+            "save": self.pickle,
+            "load": self.unpickle,
+            "about": self.about,
+            "hosts": self.showhosts
         }
         self.bgthread = None
         self.mainLoop()
@@ -74,7 +74,7 @@ class Harness:
         print "Hit Ctrl+C to stop listening and return shell."
         print "-----------------------------------------------"
         try:
-            sniff(lfilter=lambda x: x.haslayer(IP) and HTTP in x, prn=lambda x: sniff_data.callback(x, self.hostdict), store=0)
+            sniff(lfilter=lambda x: HTTP in x, prn=lambda x: sniff_data.callback(x, self.hostdict), store=0)
         except KeyboardInterrupt:
             print
             print

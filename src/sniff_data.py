@@ -2,6 +2,7 @@ import re
 import socket
 import traceback
 from scapy.all import *
+from scapy.layers.inet import IP
 from HTTP import *
 from collections import defaultdict
 
@@ -60,6 +61,8 @@ def getCookies(pkt, interesting_words=INTERESTING_WORDS):
 
 
 def callback(pkt, hostdict=None):
+    if not pkt.haslayer(IP):
+        return
     try:
         hostname = re.findall("Host: (.*)\\r\\n", pkt[HTTP].Host)[0]
     except IndexError:
