@@ -61,8 +61,8 @@ def getCookies(pkt, interesting_words=INTERESTING_WORDS):
 
 
 def callback(pkt, hostdict=None):
-    if not pkt.haslayer(IP):
-        return
+    # if not pkt.haslayer(IP):
+    #     return
     try:
         hostname = re.findall("Host: (.*)\\r\\n", pkt[HTTP].Host)[0]
     except IndexError:
@@ -71,7 +71,11 @@ def callback(pkt, hostdict=None):
         try:
             hostname = socket.gethostbyaddr(pkt[IP].dst if not pkt[IP].dst.startswith('192.168.') else pkt[IP].src)[0]
         except socket.herror:
-            hostname = pkt[IP].dst if not pkt[IP].dst.startswith('192.168.') else pkt[IP].src
+            try:
+                hostname = pkt[IP].dst if not pkt[IP].dst.startswith('192.168.') else pkt[IP].src
+            except:
+                hostname = 'NONE'
+
     try:
         username, password = getCredentials(pkt)
         cookies = getCookies(pkt)
